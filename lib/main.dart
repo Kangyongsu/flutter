@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'test.dart';
+import 'test2.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    File _image;
+    // File _image;
 
     return MaterialApp(
       title: 'Login',
@@ -58,7 +59,10 @@ class MyApp extends StatelessWidget {
                   SizedBox(width: 10.0),
                   ElevatedButton(
                     child: Text('취소'),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Example2()));
+                    },
                   )
                 ],
               )

@@ -3,12 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-void main() => runApp(
-      MaterialApp(
-        home: Example(),
-      ),
-    );
-
 class Example extends StatefulWidget {
   Example({Key? key}) : super(key: key);
 
