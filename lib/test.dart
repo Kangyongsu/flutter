@@ -1,39 +1,72 @@
 import 'package:flutter/material.dart';
-// import 'test.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'package:get/get.dart';
 
-class Example extends StatefulWidget {
-  Example({Key? key}) : super(key: key);
-
-  @override
-  _ExampleState createState() => _ExampleState(); // State 생성.
+void main() {
+  runApp(const Example());
 }
 
-class _ExampleState extends State<Example> {
-  PickedFile? _image;
+class Example extends StatelessWidget {
+  const Example({Key? key}) : super(key: key);
 
-  Future _getImage() async {
-    var image = await ImagePicker.platform.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 640,
-      maxHeight: 480,
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(),
     );
-    setState(() {
-      _image = image!;
-    });
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  void openBottomSheet() {
+    Get.bottomSheet(
+      Column(
+        children: [
+          const SizedBox(height: 20),
+          const Center(
+            child: Text(
+              'Bottom Sheet',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+          OutlinedButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+      backgroundColor: Colors.white,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Container(
-            padding: EdgeInsets.fromLTRB(20, 120, 20, 120),
-            child: Center(
-                child: _image == null
-                    ? Text("no image")
-                    : Image.file(File(_image!.path)))),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("BottomSheet"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Bottom sheet example'),
+            OutlinedButton(
+              onPressed: openBottomSheet,
+              child: const Text('Open'),
+            )
+          ],
+        ),
       ),
     );
   }

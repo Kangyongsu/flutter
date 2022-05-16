@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'test.dart';
 import 'test2.dart';
 // import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 void main() => runApp(
       MaterialApp(
