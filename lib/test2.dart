@@ -8,7 +8,7 @@ class Example2 extends StatefulWidget {
 }
 
 class _Example2State extends State<Example2> {
-  XFile? _imageFile;
+  File? _imageFile;
 
   final ImagePicker _picker = ImagePicker();
 
@@ -40,8 +40,6 @@ class _Example2State extends State<Example2> {
   }
 
   Widget imageProfile() {
-    File? file = File(_imageFile!.path);
-
     return Center(
       child: Stack(
         children: <Widget>[
@@ -49,15 +47,13 @@ class _Example2State extends State<Example2> {
               radius: 80,
               backgroundImage: _imageFile == null
                   ? AssetImage('assets/test.jpg') as ImageProvider
-                  : FileImage(file)),
+                  : FileImage(_imageFile!)),
           Positioned(
             bottom: 20,
             right: 20,
             child: InkWell(
-              onTap: () {
-                showModalBottomSheet(
-                    context: context, builder: ((builder) => bottomSheet()));
-              },
+              onTap: () => showModalBottomSheet<void>(
+                  context: context, builder: bottomSheet),
               child: Icon(Icons.camera_alt, color: Colors.blue, size: 40),
             ),
           )
@@ -66,10 +62,10 @@ class _Example2State extends State<Example2> {
     );
   }
 
-  Widget bottomSheet() {
+  Widget bottomSheet(BuildContext context) {
     return Container(
       height: 100,
-      width: MediaQuery.of(context).size.width,
+      width: 200,
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(children: [
         Text('사진선택',
@@ -83,6 +79,10 @@ class _Example2State extends State<Example2> {
             TextButton.icon(
                 onPressed: takePhoto(ImageSource.gallery),
                 icon: Icon(Icons.camera, size: 50),
+                label: Text('Camera', style: TextStyle(fontSize: 20))),
+            TextButton.icon(
+                onPressed: takePhoto(ImageSource.camera),
+                icon: Icon(Icons.camera, size: 50),
                 label: Text('Camera', style: TextStyle(fontSize: 20)))
           ],
         )
@@ -93,8 +93,10 @@ class _Example2State extends State<Example2> {
   takePhoto(ImageSource source) async {
     // final pickedFile = await _picker.getImage(source: source);
     final XFile? pickedFile = await _picker.pickImage(source: source);
-    setState(() {
-      _imageFile = pickedFile;
-    });
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
   }
 }
